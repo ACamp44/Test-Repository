@@ -11,12 +11,14 @@ services:
     volumes: 
       - ./app:/app
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_for_db &&
+             pthyon manage.py migrate &&
+             runserver 0.0.0.0:8000"
     environment:
-      - BD_HOST=db
-      - BD_NAME=devdb
+      - DB_HOST=db
+      - DB_NAME=devdb
       - POSTGRES_USER=devuser
-      - POSTGRES_PASSWORD= changeme
+      - POSTGRES_PASSWORD=changeme
     depends_on:
       - db
 
